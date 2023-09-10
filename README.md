@@ -72,7 +72,7 @@ To install ckanext-ai4dLab for development, activate your CKAN virtualenv and
 do:
 
     git clone https://github.com/Ombenitango/ckanext-ai4dLab.git
-    cd ckanext-ai4dLab
+    cd ckanext-ai4dlab
     python setup.py develop
     pip install -r dev-requirements.txt
 
