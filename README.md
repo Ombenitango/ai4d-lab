@@ -33,7 +33,7 @@ Suggested values:
    For example installing any non-Python dependencies or adding any required
    config settings.
 
-To install ckanext-ai4dLab:
+To install ckanext-ai4dlab:
 
 1. Activate your CKAN virtual environment, for example:
 
