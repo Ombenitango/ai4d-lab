@@ -1,0 +1,45 @@
+<style>
+    /* Custom CSS for the chat interface */
+    .chat-container {
+        max-width: 500px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .message {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+    }
+
+    .incoming-message {
+        background-color: #e0e0e0;
+        text-align: left;
+        position: absolute;
+        left: 5px;
+    }
+
+    .outgoing-message {
+        background-color: #007bff;
+        color: white;
+        text-align: right;
+        position: absolute;
+        right: 5px;
+    }
+</style>
+
+<div class="container mt-5 chat-container">
+    <!-- Incoming Message -->
+    <div class="message incoming-message">
+        <p>This is an incoming message.</p>
+        <small>12:30 PM</small>
+    </div>
+
+    <!-- Outgoing Message -->
+    <div class="message outgoing-message">
+        <p>This is an outgoing message.</p>
+        <small>12:35 PM</small>
+    </div>
+
+    <!-- You can add more messages here as needed -->
+</div>

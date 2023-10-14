@@ -1,0 +1,100 @@
+{% set intro = g.site_intro_text %}
+
+<div class="">
+  <style>
+    .font {
+      font-size: 3.2rem;
+      /* Adjust this value as needed */
+      font-weight: bold;
+      margin-top: 0;
+      margin-bottom: 0.5em;
+      color: white;
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .p_span {
+      font-size: 3.4rem;
+      /* Adjust this value as needed */
+      font-weight: bolder;
+      color: white;
+      text-decoration: underline 0.5rem #E4A54C;
+      /* Adjust the underline thickness */
+      font-family: "Montserrat", sans-serif;
+    }
+
+    .trans {
+      font-weight: normal;
+      color: white;
+      font-family: "Montserrat", sans-serif;
+      font-size: 20px;
+      line-height: 34px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Basic styling for the card container */
+    .data-card {
+      justify-content: space-between;
+      align-items: center;
+      background-color: whitesmoke;
+      border-radius: 5px;
+      padding: 20px;
+      width: 90%;
+      margin-top: 4rem;
+    }
+
+    .data-point {
+      text-align: center;
+      color: #E4A54C;
+    }
+
+    .data-point a {
+      font-size: 20px;
+      margin: 0;
+      text-decoration: none;
+      color: #E4A54C;
+    }
+
+    .data-point p {
+      margin: 0;
+      color: #777;
+    }
+  </style>
+  <div>
+    {% if intro %}
+    {{ h.render_markdown(intro) }}
+    {% else %}
+    <h1 class="page-heading font">
+      <p>Artificial Intelligence for</p>
+      <p>Development <span class="p_span">AI4D - Lab</span></p>
+      <p>Data respository</p>
+    </h1>
+    <p class="trans">
+      {% trans %}
+      A unique collaboration between UDOM & NM-AIST to <br> foster Research,Training and Innovation in AI
+      {% endtrans %}
+    </p>
+
+    <div class="data-card row">
+
+      <div class="data-point col">
+        <a href="/dataset">{{ h.get_counts().group_count }} Datasets</a>
+        <p>Available datasets</p>
+      </div>
+      <div class="data-point col">
+        <a href="/group">{{h.get_counts().dataset_count}} Themes</a>
+        <p>Datasets categories</p>
+      </div>
+      <div class="data-point col">
+        <a href="/organization">{{h.get_counts().organization_count}} Organizations</a>
+        <p>Dataset providers</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  {% block home_image %}
+  <section class="featured media-overlay hidden-xs">
+
+  </section>
+  {% endblock %}
+</div>

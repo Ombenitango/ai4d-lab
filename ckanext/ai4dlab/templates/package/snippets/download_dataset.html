@@ -1,0 +1,46 @@
+{% extends "page2.html" %}
+
+{% block primary_content %}
+<div class="mt-5 mb-5">
+    <form id="dataRequestForm" method="post">
+        <h2>Please tell us a bit about why you need this data</h2>
+        <div class="mb-3">
+            <label for="projectTitle" class="form-label">Title of Project</label>
+            <input type="text" class="form-control" name="title" id="projectTitle" required>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" name="url" value="{{data_url}}" id="projectTitle" hidden>
+            <label for="projectDescription" class="form-label">Project Description</label>
+            <textarea class="form-control" name="desc" id="projectDescription" rows="5" required></textarea>
+        </div>
+        <div class="text-end">
+            <a href="{{data_url}}" id="downloadButton" class="btn btn-primary disabled">Download Now</a>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    const projectTitleInput = document.getElementById("projectTitle");
+    const projectDescriptionInput = document.getElementById("projectDescription");
+    const downloadButton = document.getElementById("downloadButton");
+
+    function checkFields() {
+        const projectTitleValue = projectTitleInput.value.trim();
+        const projectDescriptionValue = projectDescriptionInput.value.trim();
+
+        if (projectTitleValue !== "" && projectDescriptionValue !== "") {
+            downloadButton.classList.remove("disabled");
+        } else {
+            downloadButton.classList.add("disabled");
+        }
+    }
+
+    projectTitleInput.addEventListener("input", checkFields);
+    projectDescriptionInput.addEventListener("input", checkFields);
+
+    downloadButton.addEventListener('click', (() => {
+       alert("Your request has been submitted. You will receive an email with a link to download the data once it has been approved.");
+    }))
+</script>
+{%endblock%}

@@ -1,0 +1,14 @@
+# ai4dlab-js:
+#   filter: rjsmin
+#   output: ckanext-ai4dlab/%(version)s-ai4dlab.js
+#   contents:
+#     - js/ai4dlab.js
+#   extra:
+#     preload:
+#       - base/main
+
+# ai4dlab-css:
+#   filter: cssrewrite
+#   output: ckanext-ai4dlab/%(version)s-ai4dlab.css
+#   contents:
+#     - css/ai4dlab.css
