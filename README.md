@@ -1,5 +1,3 @@
-[![Tests](https://github.com/Ombenitango/ckanext-ai4dLab/workflows/Tests/badge.svg?branch=main)](https://github.com/Ombenitango/ckanext-ai4dLab/actions)
-
 # ckanext-ai4dLab
 
 **TODO:** Put a description of your extension here:  What does it do? What features does it have? Consider including some screenshots or embedding a video!
@@ -35,7 +33,7 @@ Suggested values:
    For example installing any non-Python dependencies or adding any required
    config settings.
 
-To install ckanext-ai4dLab:
+To install ckanext-ai4dlab:
 
 1. Activate your CKAN virtual environment, for example:
 
@@ -74,7 +72,7 @@ To install ckanext-ai4dLab for development, activate your CKAN virtualenv and
 do:
 
     git clone https://github.com/Ombenitango/ckanext-ai4dLab.git
-    cd ckanext-ai4dLab
+    cd ckanext-ai4dlab
     python setup.py develop
     pip install -r dev-requirements.txt
 
