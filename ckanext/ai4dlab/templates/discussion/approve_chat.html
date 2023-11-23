@@ -1,0 +1,65 @@
+{% extends "page.html" %}
+
+
+
+{% block primary_content %}
+
+
+<table class="table" style="width: 100%;">
+    <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Comment</th>
+        <th scope="col">Dataset</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for comment in comments %}
+        <tr>
+            <td>{{comment.user_email}}</td>
+            <td>{{comment.comment}}</td>
+            <td><a href="/dataset" target="_blank">Open</a> </td>
+            <td>
+                <button type="button" class="btn btn-sm btn-outline-success m-1"
+                    onclick="approveComment('{{ comment.comment_id }}')">Approve</button>
+                <button type="button" class="btn btn-sm btn-outline-danger m-1"
+                    onclick="rejectComment('{{ comment.comment_id }}')">Reject</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    <script>
+        const approveComment = (comment_id) => {
+
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/approve_comment_action',
+                    type: 'GET',
+                    data: {
+                        comment_id: comment_id,
+                    },
+                    success: function (data) {
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+        const rejectComment = (comment_id) => {
+
+            $(document).ready(function () {
+                $.ajax({
+                    url: '/reject_comment_action',
+                    type: 'GET',
+                    data: {
+                        comment_id: comment_id,
+                    },
+                    success: function (data) {
+                        window.location.reload();
+                    }
+                });
+            });
+        }
+    </script>
+</table>
+{%endblock%}

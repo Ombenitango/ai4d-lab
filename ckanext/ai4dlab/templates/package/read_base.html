@@ -20,8 +20,11 @@
 {% block content_primary_nav %}
   {{ h.build_nav_icon(dataset_type ~ '.read', _('Dataset'),  id=pkg.name, icon='sitemap') }}
   {{ h.build_nav_icon(dataset_type ~ '.groups', h.humanize_entity_type('group', default_group_type, 'content tab') or _('Groups'), id=pkg.name, icon='users') }}
-  <li class=""><a href="/dataset/discussion/{{pkg.name}}" class="mx-1"><i class="fa fa-message"></i> Discussion</a></li>
-  <li class=""><a href="/notebook/new" class="mx-1"><i class="fa fa-code"></i> Code</a></li>
+  <li class=""><a href="/dataset/discussion/{{pkg.name}}/{{pkg.id}}" class="mx-1"><i class="fa fa-message"></i> Discussion</a></li>
+  {% if current_user.email !="" %}
+    <li class=""><a href="/notebook/new?dataset_id={{pkg.id}}&user={{current_user.email}}" class="mx-1"><i class="fa fa-code"></i> Code</a>
+    </li>
+  {%endif%}
 
 {% endblock %}
 

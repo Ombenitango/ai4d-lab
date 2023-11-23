@@ -9,6 +9,8 @@ setup(
     entry_points='''
     [ckan.plugins]
     ai4dlab=ckanext.ai4dlab.plugin:Ai4DlabPlugin
+    [paste.paster_command]
+    initdb = ai4dlab.commands.initdb:InitDB
     ''',
     name='ai4dlab',
     message_extractors={

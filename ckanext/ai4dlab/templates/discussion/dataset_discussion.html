@@ -1,6 +1,7 @@
 {% extends "page.html" %}
 
 {% block secondary_content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 <div class="p-3">
     <button class="btn btn-outline-primary" onclick="document.getElementById('comment').focus();">New
         discussion</button>
@@ -12,9 +13,12 @@
     <div class=""
         style="position: absolute; top: 3px; left: 3px; right: 3px; z-index: 2; background-color: whitesmoke;">
         <h1>{{param}}</h1>
+
+      <input type="text" hidden value="{{current_user.email}}" id="user">
+      <input type="text" hidden value="{{dataset_id}}" id="dataset_id">
     </div>
     <div class="content py-5"
-        style="position: absolute; top: 4px; left: 3px; right: 3px; z-index: 0; height: 100%; overflow-y: auto;">
+        style="position: absolute; top: 4px; left: 3px; right: 3px; z-index: 0; height: 90%; overflow-y: auto;">
 
         <style>
             .wrapper-chat {
@@ -27,9 +31,11 @@
 
             #chat {
                 list-style-type: none;
-                padding-bottom: 10px;
+                padding-bottom: 40px;
+                margin-bottom: 30px;
                 border: none;
                 font-size: medium;
+
             }
 
 
@@ -97,54 +103,101 @@
                 max-width: 97%;
                 word-wrap: break-word;
                 padding: 5px;
+                 margin-right: 33px;
             }
         </style>
         <div class="wrapper-chat">
             <ul id="chat">
+                {%for comment in comments%}
+                {%if comment.user_email==current_user.email%}
+                <li class="outgoing">
+                    <span class="cont-message">{{comment.comment}}</span>
+                    <span class="profile-out">{{comment.user_email[0]}}{{comment.user_email[1]}}</span>
+                 {%else%}
                 <li class="incoming">
-                    <span class="profile-in">OT</span>
-                    <span class="cont-message-in">Hello, are we meeting today?</span>
-                </li>
-                <li class="outgoing">
-                    <span class="cont-message">yes, what time suits you?</span>
-                    <span class="profile-out">DO</span>
-                </li>
-                <li class="incoming">i was thinking after lunch, I have a meeting in the morning</li>
-                <li class="incoming">maybe another day?</li>
-                <li class="outgoing">that's all right, what about you? what are you going to do?</li>
-                <li class="outgoing">I have no idea, go out for a walk or watch TV at home</li>
-                <li class="incoming">ok, see you later</li>
-                <li class="outgoing">ok, see you</li>
-                <li class="outgoing">
-                    <span class="cont-message">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-                        voluptas fugit et
-                        tenetur mollitia facere. Omnis ipsa exercitationem asperiores ab alias, cumque numquam accusamus
-                        amet. Qui, porro? Modi nam, at esse, nulla nobis ab qui nemo quasi porro dolorum, aperiam
-                        aliquid
-                        commodi quia illo odit consequuntur doloremque quas beatae voluptate mollitia. Maxime expedita
-                        minima quae, cum praesentium perspiciatis doloremque laboriosam, vero molestiae in eius magnam
-                        neque
-                        explicabo quia exercitationem excepturi illum tempore nemo ea quasi consequuntur reiciendis
-                        obcaecati. Dignissimos aliquid pariatur vel laboriosam maxime, fuga consequatur, molestiae
-                        placeat
-                        voluptate repudiandae voluptas ea, delectus excepturi. Quasi quam sint assumenda expedita
-                        earum.</span>
-                    <span class="profile-out">DO</span>
-                </li>
-                <li class="incoming">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.</li>
-                <li class="outgoing">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.</li>
-                <li class="incoming">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.</li>
-                <li class="outgoing">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.</li>
+                    <span class="profile-in">{{comment.user_email[0]}}{{comment.user_email[1]}}</span>
+                    <span class="cont-message-in">{{comment.comment}}</span>
+                {%endif%}
+
+                {%endfor%}
 
             </ul>
         </div>
     </div>
-    <div style="position: absolute; bottom: -5px; left: 3px; right: 3px; z-index: 2;  background-color: whitesmoke;">
+    <div style="position: absolute; bottom: -7px; left: 3px; right: 3px; z-index: 2;  background-color: whitesmoke;">
         <div class="row" style="background-color: whitesmoke;"">
-            <div class=" input-group" style="background-color: whitesmoke;">
-            <input type="text" id="comment" class="form-control" placeholder="New discussion">
+            <div class="input-group" style="background-color: whitesmoke;">
+            <input type="text" onkeydown="sendComment()" id="comment" class="form-control" placeholder="New discussion"></textarea>
         </div>
     </div>
 </div>
+
+<script>
+  const sendComment=()=>{
+    if(event.key === 'Enter'){
+        
+        let user= $('#user').val();
+        let dataset_id = $('#dataset_id').val();
+        let comment= event.target.value.trim();
+
+        if(user!=""){
+       
+            if(comment.length>=2){
+            $('#chat').append(`<li class="outgoing"> <span class="cont-message">${event.target.value}</span> <span class="profile-out">${user[0]}${user[1]}</span></li>`);
+            
+            let container = $(".content");
+            // Calculate the new scroll position
+            let newScrollPosition = container[0].scrollHeight - container.height();
+            // Use the scrollTop method to scroll to the calculated position
+            container.animate({ scrollTop: newScrollPosition }, 500);
+              $.ajax({
+                method: "GET",
+                url: `/discussion/new?comment=${event.target.value}&user_email=${user}&dataset_id=${dataset_id}`,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                success: function (response) {
+                     $("#response").html("Response: " + response);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log("Error: " + textStatus, errorThrown);
+                }
+            })
+              event.target.value = "";
+        }else{
+            alert("You must write a comment");
+        }
+        }else {
+            window.location.href = "/user/login"; 
+        }
+    }
+  }
+const comment_ids = [];
+
+const getNewComment=()=>{
+    $.ajax({
+        method: "GET",
+        url: `/get_new_comment/${$('#dataset_id').val()}`,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function(res){
+            if(!comment_ids.includes(res.comment_id)&&res.user_email!=$('#user').val()){
+                 $('#chat').append(`<li class="incoming"> <span class="profile-in">${res.user_email[0]}${res.user_email[1]}</span> <span class="cont-message-in">${res.comment}</span></li>`);
+                comment_ids.push(res.comment_id);
+                let container = $(".content");
+                // Calculate the new scroll position
+                let newScrollPosition = container[0].scrollHeight - container.height();
+                // Use the scrollTop method to scroll to the calculated position
+                container.animate({ scrollTop: newScrollPosition }, 500);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error: " + textStatus, errorThrown);
+        }
+    })
+  }
+
+</script>
 </div>
 {% endblock %}

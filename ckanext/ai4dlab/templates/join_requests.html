@@ -1,0 +1,29 @@
+{% extends "page2.html" %}
+
+{% block secondary_content %}
+
+{% endblock %}
+
+{% block primary_content %}
+<table class="table" style="width: 100%;">
+    <tr>
+        <th scope="col">Email</th>
+        <th scope="col">Organization</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for join_org in join_orgs %}
+        <tr>
+            <td>{{join_org.user_email}}</td>
+            <td>Udom</td>
+            <td>
+                <a href="/organization/member_new/7db1183e-c1d2-4f83-8cac-ff6d276156e0"
+                    class="btn btn-outline-success  m-1 btn-sm">Accept</a>
+                <button type="button" class="btn btn-outline-danger m-1 btn-sm">Reject</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{%endblock%}

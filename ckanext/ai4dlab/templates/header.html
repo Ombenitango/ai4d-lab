@@ -6,7 +6,30 @@
     {% block header_account_container_content %} {% if c.userobj %}
     <div class="account avatar authed" data-module="me" data-me="{{ c.userobj.id }}">
       <ul class="list-unstyled">
-        {% block header_account_logged %} {% if c.userobj.sysadmin %}
+        {% block header_account_logged %} 
+        
+        {% if c.userobj.sysadmin %}
+        <li>
+          <a href="/join_requests"  title="{{ _('Users requesting to join') }}">
+            <i class="fa fa-bell" aria-hidden="true"></i>
+            <span id="count_requests" class="badge rounded-pill bg-danger">
+              0
+              <span class="visually-hidden">unread messages</span>
+            </span>
+           
+          </a>
+          <!-- <a href="/organization/member_new/e18e9838-7cbc-44dc-8eed-6a183c05273e"  title="{{ _('Users requesting to join') }}">
+            <i class="fa fa-bell" aria-hidden="true"></i>
+            <span id="count_requests" class="badge rounded-pill bg-danger">
+              0
+              <span class="visually-hidden">unread messages</span>
+            </span>
+           
+          </a> -->
+        </li>
+        {% endif %}
+
+        {% if c.userobj.sysadmin %}
         <li>
           <a href="{{ h.url_for('admin.index') }}" title="{{ _('Sysadmin settings') }}">
             <i class="fa fa-gavel" aria-hidden="true"></i>
@@ -14,6 +37,7 @@
           </a>
         </li>
         {% endif %}
+        
         {% block header_account_profile %}
         <li>
           <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image" title="{{ _('View profile') }}">
@@ -123,6 +147,23 @@
         {% endblock %}
       </div>
     </nav>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"
+      integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+      <script>
+        $(document).ready(function () {
+          $.ajax({
+            method: "GET",
+            url: "/join_requests_count",
+            success:function(res){
+                $("#count_requests").html(res)
+              
+            },
+            error:function(){
+              console.log("error")
+            }
+          })
+        });
+      </script>
   </div>
 </header>
 {% endblock %}
