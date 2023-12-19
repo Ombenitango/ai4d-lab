@@ -41,8 +41,8 @@ To install ckanext-ai4dlab:
 
 2. Clone the source and install it on the virtualenv
 
-    git clone https://github.com/Ombenitango/ckanext-ai4dLab.git
-    cd ckanext-ai4dLab
+    git clone https://github.com/Ombenitango/ai4d-lab.git
+    cd ai4d-lab
     pip install -e .
 	pip install -r requirements.txt
 
